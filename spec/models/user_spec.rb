@@ -6,14 +6,27 @@ RSpec.describe User, type: :model do
       @user = FactoryBot.build(:user)
     end
 
-    context '新規登録/ユーザー情報' do
-      it 'すべての情報があれば登録できる' do
+    context 'ユーザー登録できるとき' do
+      it 'すべての情報があれば登録できること' do
         expect(@user).to be_valid
       end
+      it 'パスワードが6文字以上なら登録できること' do
+        @user.password = 'test12'
+        @user.password_confirmation = 'test12'
+        expect(@user).to be_valid
+      end
+    end
+
+    context 'ユーザー登録できないとき' do
       it 'ニックネームが必須であること' do
         @user.nickname = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Nickname can't be blank")
+      end
+      it 'メールアドレスが空だと登録出来ないこと' do
+        @user.email = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email can't be blank")
       end
       it 'メールアドレスが一意性であること' do
         @user.save
@@ -31,18 +44,19 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
-      it 'パスワードは6文字以上の入力が必須であること' do
-        @user.password = 'test12'
-        @user.password_confirmation = 'test12'
-        expect(@user).to be_valid
-      end
       it 'パスワードは5文字以下であれば登録できないこと' do
         @user.password = 'test1'
         @user.password_confirmation = 'test1'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
-      it 'パスワードは半角英数字混合での入力が必須であること' do
+      it 'パスワードは英語のみでは登録できないこと' do
+        @user.password = 'aaaaaa'
+        @user.password_confirmation = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid. Input half-width characters.')
+      end
+      it 'パスワードは数字のみでは登録できないこと' do
         @user.password = '123456'
         @user.password_confirmation = '123456'
         @user.valid?
@@ -54,9 +68,6 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
-    end
-
-    context '新規登録/本人情報確認' do
       it 'ユーザー本名は、名字が必須であること' do
         @user.last_name = ''
         @user.valid?
