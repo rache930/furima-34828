@@ -14,7 +14,7 @@ class User < ApplicationRecord
       validates :last_name
       validates :first_name
     end
-    with_options format: { with: /\A[ァ-ヶー－]+\z/, message: 'is invalid. Input full-width katakana characters.' }
+    with_options format: { with: /\A[ァ-ヶー－]+\z/, message: 'is invalid. Input full-width katakana characters.' } do
       validates :last_name_reading
       validates :first_name_reading
     end

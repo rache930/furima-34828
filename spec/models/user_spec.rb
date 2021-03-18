@@ -108,6 +108,16 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('First name reading is invalid. Input full-width katakana characters.')
       end
+      it 'ユーザー本名のフリガナ（名字）は、半角文字だと登録できないこと' do
+        @user.last_name_reading = 'ｽｽﾞｷ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name reading is invalid. Input full-width katakana characters.')
+      end
+      it 'ユーザー本名のフリガナ（名前）は、半角文字だと登録できないこと' do
+        @user.first_name_reading = 'ﾀﾛｳ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name reading is invalid. Input full-width katakana characters.')
+      end
       it '生年月日が必須であること' do
         @user.birth_date = ''
         @user.valid?
