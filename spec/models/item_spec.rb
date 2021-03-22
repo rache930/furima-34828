@@ -35,7 +35,7 @@ RSpec.describe Item, type: :model do
       it 'カテゴリーのidが1なら登録できないこと' do
         @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Category must be other than 1')
+        expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it '商品状態についての情報が必須であること' do
         @item.condition_id = nil
@@ -45,7 +45,7 @@ RSpec.describe Item, type: :model do
       it '商品状態のidが1なら登録できないこと' do
         @item.condition_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Condition must be other than 1')
+        expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
       it '配送料負担についての情報が必須であること' do
         @item.shipping_fee_id = nil
@@ -55,7 +55,7 @@ RSpec.describe Item, type: :model do
       it '配送料負担のidが1なら登録できないこと' do
         @item.shipping_fee_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Shipping fee must be other than 1')
+        expect(@item.errors.full_messages).to include("Shipping fee can't be blank")
       end
       it '配送元地域についての情報が必須であること' do
         @item.prefecture_id = nil
@@ -65,7 +65,7 @@ RSpec.describe Item, type: :model do
       it '配送元地域のidが0なら登録できないこと' do
         @item.prefecture_id = 0
         @item.valid?
-        expect(@item.errors.full_messages).to include('Prefecture must be other than 0')
+        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
       it '配送日数についての情報が必須であること' do
         @item.shipping_date_id = nil
@@ -75,7 +75,7 @@ RSpec.describe Item, type: :model do
       it '配送日数のidが1なら登録できないこと' do
         @item.shipping_date_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Shipping date must be other than 1')
+        expect(@item.errors.full_messages).to include("Shipping date can't be blank")
       end
       it '販売価格についての情報が必須であること' do
         @item.price = nil
