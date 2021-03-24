@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  describe 'ツイートの保存' do
+  describe '商品の保存' do
     before do
       @item = FactoryBot.build(:item)
     end
