@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!, only: [:index, :create]
   before_action :item_find, only: [:index, :create]
+  before_action :move_to_root, only: [:index, :create]
   def index
     @order_address = OrderAddress.new
   end
@@ -33,4 +35,12 @@ class OrdersController < ApplicationController
       currency: 'jpy'
     )
   end  
+
+  def move_to_root
+    if current_user.id != @item.user_id && @item.order.nil?
+      return
+    else
+      redirect_to root_path
+    end
+  end
 end
