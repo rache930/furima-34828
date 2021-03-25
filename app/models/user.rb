@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :items
+  has_many :orders
+
   valid_password = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,}+\z/i
 
   with_options presence: true do
