@@ -28,6 +28,9 @@
   <div class='login-btn'>
     <%= f.submit "ログイン" ,class:"login-red-btn" %>
   </div>
+  <%= link_to 'はじめての方はこちら', new_user_registration_path %>
+  <%= link_to 'Facebookでログイン', user_facebook_omniauth_authorize_path, method: :post%>
+  <%= link_to 'Googleでログイン', user_google_oauth2_omniauth_authorize_path, method: :post%>
 </div>
 <% end %>
 
