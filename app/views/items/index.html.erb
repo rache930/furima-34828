@@ -114,6 +114,25 @@
 
   <div class='item-contents'>
     <h2 class='title'>ピックアップカテゴリー</h2>
+    <%= search_form_for @p, url: look_items_path do |f| %>
+      <%= f.label :category_id_eq, 'カテゴリー：' %>
+      <%= f.collection_select :category_id_eq, Category.all, :id, :name, include_blank: '指定なし' %>
+      <br>
+      <div class='validate-button'>価格：
+        <%= f.radio_button :price_lteq, '' ,{id: 'n'} %>
+        <%= f.label :price, '指定なし', for: 'n' %> 
+        <%= f.radio_button :price_lteq, '10_000', {id: 's'} %>
+        <%= f.label :price, '10000円以下', for: 's' %>
+        <%= f.radio_button :price_lteq, '100_000', {id: 'm'} %>
+        <%= f.label :price, '100000円以下', for: 'm' %>
+        <%= f.radio_button :price_lteq, '1_000_000', {id: 'l'} %>
+        <%= f.label :price, '1000000円以下', for: 'l' %>
+      <br>
+      </div>
+      <div class='radio_button', id="sample">
+      <p class="text-center"><%= f.submit '検索', class: "radio_button" %></p>
+      </div>
+    <% end %>
     <%= link_to '新規投稿商品', new_item_path, class: "subtitle" %>
     <ul class='item-lists'>
 

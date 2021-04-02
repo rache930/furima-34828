@@ -1,0 +1,102 @@
+<%= render "shared/header" %>
+<div class='main'>
+  <div class='item-contents'>
+    <% if @results.present? %>
+      <% @results.each do |result| %>
+        <%= link_to item_path(result.id) do %>
+        <div class='item-img-content'>
+          <%= image_tag result.image, class: "item-img"%>
+
+          <% unless result.order.nil? %>
+            <div class='sold-out'>
+              <span>Sold Out!!</span>
+            </div>
+          <% end %>
+        </div>
+        <div class='item-info'>
+          <h3 class='item-name'>
+            <%= result.name %>
+          </h3>
+          <div class='item-price'>
+            <span><%= result.price %>円<br><%= result.shipping_fee.name %><br>
+              <% result.tags.each do |tag|%>
+                #<%= tag.tag_name%>
+              <%end%>
+            </span>
+            <div class='star-btn'>
+              <%= image_tag "star.png", class:"star-icon" %>
+              <span class='star-count'>0</span>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      該当する商品はありません
+    <% end %>
+    <br>
+    <%= link_to 'トップページへ戻る', root_path %>
+  </div>
+
+  <div class='item-contents'>
+    <h2 class='title'>ピックアップカテゴリー</h2>
+    <%= search_form_for @p, url: look_items_path do |f| %>
+      <%= f.label :category_id_eq, 'カテゴリー：' %>
+      <%= f.collection_select :category_id_eq, Category.all, :id, :name, include_blank: '指定なし' %>
+      <br>
+      <div class='radio-button'>価格：
+        <%= f.radio_button :price_lteq, '' ,{id: 'n'} %>
+        <%= f.label :price, '指定なし', for: 'n' %> 
+        <%= f.radio_button :price_lteq, '10_000', {id: 's'} %>
+        <%= f.label :price, '10000円以下', for: 's' %>
+        <%= f.radio_button :price_lteq, '100_000', {id: 'm'} %>
+        <%= f.label :price, '100000円以下', for: 'm' %>
+        <%= f.radio_button :price_lteq, '1_000_000', {id: 'l'} %>
+        <%= f.label :price, '1000000円以下', for: 'l' %>
+      <br>
+      </div>
+      <%= f.submit '検索' %>
+    <% end %>
+    <%= link_to '新規投稿商品', new_item_path, class: "subtitle" %>
+    <ul class='item-lists'>
+
+      <% @items.each do |item| %>
+        <li class='list'>
+          <%= link_to item_path(item.id) do %>
+          <div class='item-img-content'>
+            <%= image_tag item.image, class: "item-img"%>
+
+            <% unless item.order.nil? %>
+              <div class='sold-out'>
+                <span>Sold Out!!</span>
+              </div>
+            <% end %>
+
+          </div>
+          <div class='item-info'>
+            <h3 class='item-name'>
+              <%= item.name %>
+            </h3>
+            <div class='item-price'>
+              <span><%= item.price %>円<br><%= item.shipping_fee.name %><br>
+                <% item.tags.each do |tag|%>
+                  #<%= tag.tag_name%>
+                <%end%>
+              </span>
+              <div class='star-btn'>
+                <%= image_tag "star.png", class:"star-icon" %>
+                <span class='star-count'>0</span>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<%= link_to(new_item_path, class: 'purchase-btn') do %>
+  <span class='purchase-btn-text'>出品する</span>
+  <%= image_tag 'icon_camera.png' , size: '185x50' ,class: "purchase-btn-icon" %>
+<% end %>
+<%= render "shared/footer" %>

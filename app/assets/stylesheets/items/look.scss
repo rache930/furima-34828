@@ -244,28 +244,15 @@ a {
   background-color: #f4f4f4;
   padding: 5px 10px;
   border-radius: 3px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.30);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .validate-button input[type='radio']:checked + label {
-  background-color: #dddddd;
+  background-color: #b3b3b3;
 }
 
 .validate-button label:hover {
   background-color: #e7e7e7;
-}
-
-.validate-button>.text_center{
-  text-align: center;
-}
-
-.validate-button>.radio_button {
-  margin: 0, auto;
-}
-
-#sample{
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .item-lists {

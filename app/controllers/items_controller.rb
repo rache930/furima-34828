@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :move_to_index, only: [:edit, :update, :destroy]
   before_action :item_find, only: [:show, :edit, :update]
+  before_action :look_item, only: [:index, :look]
 
   def index
     @items = Item.includes(:user).order('created_at DESC')
@@ -43,12 +44,14 @@ class ItemsController < ApplicationController
 
   def search
     return nil if params[:keyword] == ""
-    tag = Tag.where(['name LIKE ?', "%#{params[:keyword]}%"] )
+     tag = Tag.where(['name LIKE ?', "%#{params[:keyword]}%"] )
     render json:{ keyword: tag }
   end
 
   def look
-    
+    @results = @p.result
+    @items = Item.includes(:user).order('created_at DESC')
+     
   end
 
   private
@@ -70,4 +73,9 @@ class ItemsController < ApplicationController
       redirect_to action: :index
     end
   end
+
+  def look_item
+    @p = Item.ransack(params[:q])
+  end
+
 end
