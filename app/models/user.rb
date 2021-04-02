@@ -10,7 +10,7 @@ class User < ApplicationRecord
   valid_password = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,}+\z/i
 
   with_options presence: true do
-    validates :password, on: :create, format: { with: valid_password, message: 'is invalid. Input half-width characters.' }, unless: -> { validation_context == :hoge }
+    validates :password, on: :create, format: { with: valid_password, message: 'is invalid. Input half-width characters.' }
     validates :nickname
     validates :birth_date
     with_options format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'is invalid. Input full-width characters.' } do
@@ -33,9 +33,8 @@ class User < ApplicationRecord
     )
     if user.persisted?
       sns.user = user
-      sns.save!(context: :hoge)
+      sns.save(validate: false)
     end
     { user: user, sns: sns }
   end
-  
 end
