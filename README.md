@@ -17,6 +17,7 @@
 
 - has_many :items
 - has_many :orders
+- has_many :sns_credentials
 
 ## items テーブル
 
@@ -35,7 +36,10 @@
 ### Association
 
 - belongs_to :user
+- has_one_attached :image
 - has_one :order
+- has_many :item_tag_relations
+- has_many :tags, through: :item_tag_relations
 
 ## orders テーブル
 
@@ -65,3 +69,38 @@
 ### Association
 
 - belongs_to :order
+
+## tags テーブル
+
+| Column    | Type       | Options                        |
+| --------- | ---------- | ------------------------------ |
+| tag_name  | references | null: false, foreign_key: true |
+
+### Association
+
+- has_many :item_tag_relations
+- has_many :items, through: :item_tag_relations
+
+## item_tag_relations テーブル
+
+| Column    | Type       | Options                        |
+| --------- | ---------- | ------------------------------ |
+| tag       | references | null: false, foreign_key: true |
+| item      | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :tag
+- belongs_to :item
+
+## sns_credentials テーブル
+
+| Column    | Type       | Options                        |
+| --------- | ---------- | ------------------------------ |
+| provider  | string     |                                |
+| uid       | string     |                                |
+| user      | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
